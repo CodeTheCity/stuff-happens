@@ -15,7 +15,7 @@ EXAMPLE_COMMAND = "do"
 DIE_COMMAND = "die"
 MUSIC_COMMAND = "music"
 EXHIBITION_COMMAND = "exhibition"
-OUTDOORS_COMMAND = "outdoors"
+OUTDOOR_COMMAND = "outdoor"
 HELP_COMMAND = "help"
 
 # gets reset by @disney_work die command  - to kill off bot so it can be restarted
@@ -46,10 +46,12 @@ def handle_music(command):
   #  conn = sqlite3.connect('myjazzalbums.sqlite')
   #  cur = conn.cursor()
 
-    if command [-1] == "?": 
-        location_name = command[5:-1].strip()
-    else: 
-        location_name = command[5:].strip()
+   # if command [-1] == "?": 
+        #location_name = command[5:-1].strip()
+    location_name = command.split()[1]
+    #else: 
+        #location_name = command[5:].strip()
+     #   location_name = command.split()[1]
 
     
     response = "I have found 2 music events in " + location_name.title()
@@ -62,17 +64,21 @@ def handle_exhibition(command):
     """
   #  conn = sqlite3.connect('myjazzalbums.sqlite')
   #  cur = conn.cursor()
-
+    """
     if command [-1] == "?": 
         location_name = command[10:-1].strip()
     else: 
         location_name = command[10:].strip()
         print "(" + location_name + ")"
+    """
+
+    location_name = command.split()[1]
+
 
     response = "I have found 4 exhibitions happening in " + location_name.title()
     return response
 
-def handle_outdoors(command):
+def handle_outdoor(command):
     
     """
       Process the music command
@@ -80,14 +86,19 @@ def handle_outdoors(command):
   #  conn = sqlite3.connect('myjazzalbums.sqlite')
   #  cur = conn.cursor()
 
+    """
+
     if command [-1] == "?": 
-        location_name = command[8:-1].strip()
+        location_name = command[7:-1].strip()
     else: 
-        location_name = command[8:].strip()
+        location_name = command[7:].strip()
         print "(" + location_name + ")"
 
-    response = "I have found 1 outdoors evennt happening in " + location_name.title()
-    print response
+    """
+
+    location_name = command.split()[1]
+
+    response = "I have found 1 outdoors event happening in " + location_name.title()
 
     return response
 
@@ -99,12 +110,11 @@ def handle_command(command, channel):
         response = handle_music(command)
     elif command.lower().startswith(EXHIBITION_COMMAND):
         response = handle_exhibition(command)
-    elif command.lower().startswith(OUTDOORS_COMMAND):
-        response = handle_outdoors(command)
+    elif command.lower().startswith(OUTDOOR_COMMAND):
+        response = handle_outdoor(command)
     elif command.lower().startswith(DIE_COMMAND):
         Alive = False
     else:
-
         response = "Not sure what you mean. Use the *" + EXAMPLE_COMMAND + \
                "* command with numbers, delimited by spaces."
     
