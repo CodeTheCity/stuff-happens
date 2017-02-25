@@ -13,6 +13,9 @@ from secrets import SLACK_BOT_TOKEN, BOT_ID # <== Storing my authentication ther
 AT_BOT = "<@" + BOT_ID + ">"
 EXAMPLE_COMMAND = "do"
 DIE_COMMAND = "die"
+MUSIC_COMMAND = "music"
+EXHIBITION_COMMAND = "exhibition"
+OUTDOOR_COMMAND = "outdoor"
 
 # gets reset by @disney_work die command  - to kill off bot so it can be restarted
 Alive = True
@@ -33,6 +36,36 @@ def handle_help(commands):
     response += "*" + HELP_COMMAND + "* - shows this message\n"
     
     return response
+	
+def handle_music(command):
+    
+    """
+      Process the music command
+    """
+  #  conn = sqlite3.connect('myjazzalbums.sqlite')
+  #  cur = conn.cursor()
+
+    if command [-1] == "?": 
+        music_name = command[5:-1].strip()
+    else: 
+        music_name = command[5:].strip()
+
+    #cur.execute (" SELECT Artist.name FROM Album JOIN Artist ON Artist.id = Album.artist_id WHERE Album.title =?", (album_name,) )
+    """    
+    count = 0
+    response =  'Albums called ' + album_name + '\n'
+
+    for row in cur :
+        response += "Artist: " + row[0]
+        count = count + 1
+    response = "I have "+ str (count) +" " +  response
+    return response
+    cur.close()
+	"""
+	
+	location = music_name.split()[1]
+	response = "I have found 2 music events in " + location.title
+	return response
 
 def handle_command(command, channel):
     """
@@ -43,6 +76,8 @@ def handle_command(command, channel):
 	
 	if command.lower().startswith(HELP_COMMAND):
         response = handle_help (command)
+	elif command.lower().starswith(MUSIC_COMMAND :
+		response = handle_music (command)
     elif command.lower().startswith(DIE_COMMAND):
         Alive = False
 	
