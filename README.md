@@ -16,3 +16,16 @@ The sqlite database (created with FME) is populated by pulling in the RSS event 
 - http://www.aberdeenshireevents.org.uk/event/rss.xml 
 
 The database can be updated on a schedule to ensure valid results are returned.
+
+Fields in the database are:
+
+- Title
+- Content
+- Id
+- PublishedDate
+- LinkURI
+- StartDate
+- EndDate
+- Venue
+
+Not all RSS feeds are created equal!

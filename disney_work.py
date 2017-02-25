@@ -93,6 +93,7 @@ def handle_outdoors(command):
 
 def handle_command(command, channel):
 	
+<<<<<<< HEAD
     #if command.lower().startswith(HELP_COMMAND):
     #    response = handle_help(command)
     if command.lower().startswith(MUSIC_COMMAND):
@@ -101,6 +102,12 @@ def handle_command(command, channel):
         response = handle_exhibition(command)
     elif command.lower().startswith(OUTDOORS_COMMAND):
         response = handle_outdoors(command)
+=======
+	if command.lower().startswith(HELP_COMMAND):
+        response = handle_help (command)
+	elif command.lower().starswith(MUSIC_COMMAND):
+		response = handle_music (command)
+>>>>>>> 6f9170b84169646f00ec78b7c7bef3d061a33081
     elif command.lower().startswith(DIE_COMMAND):
         Alive = False
     else:
