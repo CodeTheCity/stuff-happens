@@ -76,7 +76,7 @@ def handle_command(command, channel):
 	
 	if command.lower().startswith(HELP_COMMAND):
         response = handle_help (command)
-	elif command.lower().starswith(MUSIC_COMMAND :
+	elif command.lower().starswith(MUSIC_COMMAND):
 		response = handle_music (command)
     elif command.lower().startswith(DIE_COMMAND):
         Alive = False
