@@ -15,7 +15,8 @@ EXAMPLE_COMMAND = "do"
 DIE_COMMAND = "die"
 MUSIC_COMMAND = "music"
 EXHIBITION_COMMAND = "exhibition"
-OUTDOOR_COMMAND = "outdoor"
+OUTDOORS_COMMAND = "outdoors"
+HELP_COMMAND = "help"
 
 # gets reset by @disney_work die command  - to kill off bot so it can be restarted
 Alive = True
@@ -36,7 +37,7 @@ def handle_help(commands):
     response += "*" + HELP_COMMAND + "* - shows this message\n"
     
     return response
-	
+    
 def handle_music(command):
     
     """
@@ -46,45 +47,67 @@ def handle_music(command):
   #  cur = conn.cursor()
 
     if command [-1] == "?": 
-        music_name = command[5:-1].strip()
+        location_name = command[5:-1].strip()
     else: 
-        music_name = command[5:].strip()
+        location_name = command[5:].strip()
 
-    #cur.execute (" SELECT Artist.name FROM Album JOIN Artist ON Artist.id = Album.artist_id WHERE Album.title =?", (album_name,) )
-    """    
-    count = 0
-    response =  'Albums called ' + album_name + '\n'
-
-    for row in cur :
-        response += "Artist: " + row[0]
-        count = count + 1
-    response = "I have "+ str (count) +" " +  response
+    
+    response = "I have found 2 music events in " + location_name.title()
     return response
-    cur.close()
-	"""
-	
-	location = music_name.split()[1]
-	response = "I have found 2 music events in " + location.title
-	return response
+
+def handle_exhibition(command):
+    
+    """
+      Process the music command
+    """
+  #  conn = sqlite3.connect('myjazzalbums.sqlite')
+  #  cur = conn.cursor()
+
+    if command [-1] == "?": 
+        location_name = command[10:-1].strip()
+    else: 
+        location_name = command[10:].strip()
+        print "(" + location_name + ")"
+
+    response = "I have found 4 exhibitions happening in " + location_name.title()
+    return response
+
+def handle_outdoors(command):
+    
+    """
+      Process the music command
+    """
+  #  conn = sqlite3.connect('myjazzalbums.sqlite')
+  #  cur = conn.cursor()
+
+    if command [-1] == "?": 
+        location_name = command[8:-1].strip()
+    else: 
+        location_name = command[8:].strip()
+        print "(" + location_name + ")"
+
+    response = "I have found 1 outdoors evennt happening in " + location_name.title()
+    print response
+
+    return response
 
 def handle_command(command, channel):
-    """
-        Receives commands directed at the bot and determines if they
-        are valid commands. If so, then acts on the commands. If not,
-        returns back what it needs for clarification.
-    """
-	
-	if command.lower().startswith(HELP_COMMAND):
-        response = handle_help (command)
-	elif command.lower().starswith(MUSIC_COMMAND):
-		response = handle_music (command)
+    
+    #if command.lower().startswith(HELP_COMMAND):
+    #    response = handle_help(command)
+    if command.lower().startswith(MUSIC_COMMAND):
+        response = handle_music(command)
+    elif command.lower().startswith(EXHIBITION_COMMAND):
+        response = handle_exhibition(command)
+    elif command.lower().startswith(OUTDOORS_COMMAND):
+        response = handle_outdoors(command)
     elif command.lower().startswith(DIE_COMMAND):
         Alive = False
-	
-    response = "Not sure what you mean. Use the *" + EXAMPLE_COMMAND + \
+    else:
+
+        response = "Not sure what you mean. Use the *" + EXAMPLE_COMMAND + \
                "* command with numbers, delimited by spaces."
-    if command.startswith(EXAMPLE_COMMAND):
-        response = "Sure...write some more code then I can do that!"
+    
     slack_client.api_call("chat.postMessage", channel=channel,
                           text=response, as_user=True)
 
