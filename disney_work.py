@@ -1,5 +1,4 @@
-import os
-import time
+import os, time, sqlite3
 from slackclient import SlackClient
 from secrets import SLACK_BOT_TOKEN, BOT_ID # <== Storing my authentication there
 
@@ -13,10 +12,27 @@ from secrets import SLACK_BOT_TOKEN, BOT_ID # <== Storing my authentication ther
 # constants
 AT_BOT = "<@" + BOT_ID + ">"
 EXAMPLE_COMMAND = "do"
+DIE_COMMAND = "die"
+
+# gets reset by @disney_work die command  - to kill off bot so it can be restarted
+Alive = True
 
 # instantiate Slack & Twilio clients
 slack_client = SlackClient(SLACK_BOT_TOKEN)
 
+
+def handle_help(commands):
+    """
+      Process the help command
+    """
+    # Place holder for any attachments we want to send
+    
+    response = "My capabilities are few, but generally well-executed. \nI find that when mistakes do happen it is not at my end. So, to keep you right, here are some pointers:\n"
+
+    # Add help message for each command
+    response += "*" + HELP_COMMAND + "* - shows this message\n"
+    
+    return response
 
 def handle_command(command, channel):
     """
@@ -24,6 +40,12 @@ def handle_command(command, channel):
         are valid commands. If so, then acts on the commands. If not,
         returns back what it needs for clarification.
     """
+	
+	if command.lower().startswith(HELP_COMMAND):
+        response = handle_help (command)
+    elif command.lower().startswith(DIE_COMMAND):
+        Alive = False
+	
     response = "Not sure what you mean. Use the *" + EXAMPLE_COMMAND + \
                "* command with numbers, delimited by spaces."
     if command.startswith(EXAMPLE_COMMAND):
@@ -51,8 +73,8 @@ def parse_slack_output(slack_rtm_output):
 if __name__ == "__main__":
     READ_WEBSOCKET_DELAY = 1 # 1 second delay between reading from firehose
     if slack_client.rtm_connect():
-        print("StarterBot connected and running!")
-        while True:
+        print("DisneyWork connected and running!")
+        while True and Alive :
             command, channel = parse_slack_output(slack_client.rtm_read())
             if command and channel:
                 handle_command(command, channel)
