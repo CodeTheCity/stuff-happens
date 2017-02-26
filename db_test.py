@@ -3,9 +3,8 @@ import os, time, sqlite3
 
 def handle_query(nature, location):
     
-    """
-      Process the album command
-    """
+    
+    '''
     conn = sqlite3.connect('events.sqlite')
     cur = conn.cursor()
     event_list = []
@@ -37,6 +36,23 @@ def handle_query(nature, location):
     cur.close()
     return event_list
 
-response = handle_query("music", "Church")
+response = handle_query("tango", "Church")
 
 print response
+'''
+def handle_categories ():
+    conn = sqlite3.connect('events.sqlite')
+    cur = conn.cursor()
+    category_list = []
+   
+    cur.execute (" SELECT Category FROM rssevents WHERE Category IS NOT NULL")
+         
+    for row in cur:
+        for resp in row:
+            
+            category_list.append (str(resp))
+        
+    cur.close()
+    print category_list
+response = handle_categories()
+

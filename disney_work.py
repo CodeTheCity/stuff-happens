@@ -11,7 +11,7 @@ from secrets import SLACK_BOT_TOKEN, BOT_ID # <== Storing my authentication ther
 
 # constants
 AT_BOT = "<@" + BOT_ID + ">"
-EXAMPLE_COMMAND = "do"
+#EXAMPLE_COMMAND = "do"
 DIE_COMMAND = "die"
 MUSIC_COMMAND = "music"
 EXHIBITION_COMMAND = "exhibition"
@@ -24,6 +24,16 @@ Alive = True
 # instantiate Slack & Twilio clients
 slack_client = SlackClient(SLACK_BOT_TOKEN)
 
+def handle_categories ():
+conn = sqlite3.connect('events.sqlite')
+    cur = conn.cursor()
+    caregory_list = ""
+    
+
+    cur.execute (" SELECT Category FROM rssevents" )
+        
+        for row in cur:
+            print row
 
 def handle_query(nature, location):
     
