@@ -25,6 +25,42 @@ Alive = True
 slack_client = SlackClient(SLACK_BOT_TOKEN)
 
 
+def handle_query(nature, location):
+    
+    """
+      Process the album command
+    """
+    conn = sqlite3.connect('events.sqlite')
+    cur = conn.cursor()
+    event_list = []
+    
+    loc2 = "%"+location+"%"
+    nat2 = "%" + nature +"%"
+
+    cur.execute (" SELECT * FROM rssevents  WHERE (rssevents.Venue LIKE ? OR rssevents.Content LIKE ? ) AND (rssevents.Content LIKE ?)", (loc2,loc2, nat2))
+        
+    
+    for row in cur: 
+        count = 0
+        event = []
+        for field in row:
+            if count == 0:
+                event.append(field) # title
+            elif count == 1:
+                event.append(field) #content
+            elif count == 4:
+                event.append(field) #url
+            elif count == 5:
+                event.append(field) #startdate
+            elif count ==6:
+                event.append(field) #endate
+            elif count == 7:
+                event.append(field) #venue
+            count +=1
+        event_list.append(event)
+    cur.close()
+    return event_list
+
 def handle_help(commands):
     """
       Process the help command
@@ -53,8 +89,12 @@ def handle_music(command):
         #location_name = command[5:].strip()
      #   location_name = command.split()[1]
 
-    
-    response = "I have found 2 music events in " + location_name.title()
+    response = handle_query ( 'music', location_name)
+    rsp2 = ""
+    for phrase in response:
+        rsp2 = rsp2 + str(phrase) + " "
+
+    response = "Here's what I found: \n" + rsp2
     return response
 
 def handle_exhibition(command):

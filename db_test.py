@@ -11,8 +11,9 @@ def handle_query(nature, location):
     event_list = []
     
     loc2 = "%"+location+"%"
-    
-    cur.execute (" SELECT * FROM rssevents  WHERE rssevents.Venue LIKE ? OR rssevents.Content LIKE ? ", (loc2,loc2))
+    nat2 = "%" + nature +"%"
+
+    cur.execute (" SELECT * FROM rssevents  WHERE (rssevents.Venue LIKE ? OR rssevents.Content LIKE ? ) AND (rssevents.Content LIKE ?)", (loc2,loc2, nat2))
         
     
     for row in cur: 
@@ -24,7 +25,7 @@ def handle_query(nature, location):
             elif count == 1:
                 event.append(field) #content
             elif count == 4:
-                event.append(filed) #url
+                event.append(field) #url
             elif count == 5:
                 event.append(field) #startdate
             elif count ==6:
@@ -32,10 +33,10 @@ def handle_query(nature, location):
             elif count == 7:
                 event.append(field) #venue
             count +=1
-            event_list.append(event)
+        event_list.append(event)
     cur.close()
     return event_list
 
-response = handle_query("music", "Blue")
+response = handle_query("music", "Church")
 
 print response
