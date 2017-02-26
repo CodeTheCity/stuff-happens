@@ -14,16 +14,6 @@ def handle_query(nature, location):
     
     cur.execute (" SELECT * FROM rssevents  WHERE rssevents.Venue LIKE ? OR rssevents.Content LIKE ? ", (loc2,loc2))
         
-    '''
-    count = 0
-    response =  'Albums called ' + album_name + '\n'
-
-    for row in cur :
-        response += "Artist: " + row[0]
-        count = count + 1
-    response = "I have "+ str (count) +" " +  response
-    return response
-    '''
     
     for row in cur: 
         count = 0
