@@ -8,7 +8,7 @@ def handle_query(nature, location):
     """
     conn = sqlite3.connect('events.sqlite')
     cur = conn.cursor()
-
+    event_list = []
     
     loc2 = "%"+location+"%"
     
@@ -17,13 +17,24 @@ def handle_query(nature, location):
     
     for row in cur: 
         count = 0
+        event = []
         for field in row:
-            if count == 5:
-                startdate = field.split()[0]
-                print "startdate = " + startdate
-            print field, " count " + str(count)
+            if count == 0:
+                event.append(field) # title
+            elif count == 1:
+                event.append(field) #content
+            elif count == 4:
+                event.append(filed) #url
+            elif count == 5:
+                event.append(field) #startdate
+            elif count ==6:
+                event.append(field) #endate
+            elif count == 7:
+                event.append(field) #venue
             count +=1
+            event_list.append(event)
     cur.close()
+    return event_list
 
 response = handle_query("music", "Blue")
 
