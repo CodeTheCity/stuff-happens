@@ -70,7 +70,10 @@ def handle_help(commands):
     response = "My capabilities are few, but generally well-executed. \nI find that when mistakes do happen it is not at my end. So, to keep you right, here are some pointers:\n"
 
     # Add help message for each command
-    response += "*" + HELP_COMMAND + "* - shows this message\n"
+    response += "*" + HELP_COMMAND + "* - shows this message\n\n"
+    response += "Try formatting your query as *Subject Location* \n"
+    response += "e.g. *Music Aberdeen*  \n"
+    response += "or *exhibition Forfar* "
     
     return response
     
@@ -79,15 +82,9 @@ def handle_music(command):
     """
       Process the music command
     """
-  #  conn = sqlite3.connect('myjazzalbums.sqlite')
-  #  cur = conn.cursor()
-
-   # if command [-1] == "?": 
-        #location_name = command[5:-1].strip()
+  
     location_name = command.split()[1]
-    #else: 
-        #location_name = command[5:].strip()
-     #   location_name = command.split()[1]
+    
 
     response = handle_query ( 'music', location_name)
     rsp2 = ""
@@ -100,16 +97,7 @@ def handle_music(command):
 def handle_exhibition(command):
     
     """
-      Process the music command
-    """
-  #  conn = sqlite3.connect('myjazzalbums.sqlite')
-  #  cur = conn.cursor()
-    """
-    if command [-1] == "?": 
-        location_name = command[10:-1].strip()
-    else: 
-        location_name = command[10:].strip()
-        print "(" + location_name + ")"
+      Process the exhibition command
     """
 
     location_name = command.split()[1]
@@ -121,20 +109,11 @@ def handle_exhibition(command):
 def handle_outdoor(command):
     
     """
-      Process the music command
+      Process the outdoor command
     """
   #  conn = sqlite3.connect('myjazzalbums.sqlite')
   #  cur = conn.cursor()
 
-    """
-
-    if command [-1] == "?": 
-        location_name = command[7:-1].strip()
-    else: 
-        location_name = command[7:].strip()
-        print "(" + location_name + ")"
-
-    """
 
     location_name = command.split()[1]
 
@@ -144,9 +123,9 @@ def handle_outdoor(command):
 
 def handle_command(command, channel):
     
-    #if command.lower().startswith(HELP_COMMAND):
-    #    response = handle_help(command)
-    if command.lower().startswith(MUSIC_COMMAND):
+    if command.lower().startswith(HELP_COMMAND):
+        response = handle_help(command)
+    elif command.lower().startswith(MUSIC_COMMAND):
         response = handle_music(command)
     elif command.lower().startswith(EXHIBITION_COMMAND):
         response = handle_exhibition(command)
